@@ -33,17 +33,22 @@ export function createAudioEngine() {
     return running;
   }
 
-  function makeChannel() {
+  function makeChannel(ctx, panValue) {
     const osc = ctx.createOscillator();
     const gain = ctx.createGain();
     const lfo = ctx.createOscillator();
     const lfoGain = ctx.createGain();
 
+    const pannel = ctx.createStereoPanner();
+
     osc.type = "sine";
     lfo.type = "sine";
 
     osc.connect(gain);
-    gain.connect(ctx.destination);
+    gain.connect(panner);
+    panner.connect(ctx.destination);
+
+    panner.pan.value = panValue;
 
     lfo.connect(lfoGain);
     lfoGain.connect(osc.frequency);
@@ -74,8 +79,8 @@ export function createAudioEngine() {
     };
   }
 
-  const L = makeChannel();
-  const R = makeChannel();
+  const L = makeChannel(ctx, -1);
+  const R = makeChannel(ctx, +1);
 
   function setFreq(channel, v) {
     const target = channel === "L" ? L : R;
