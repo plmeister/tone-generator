@@ -869,7 +869,7 @@ setHz('L', 440, null);
 setHz('R', 440, null);
 
 if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('/sw.js').then(() => {
+  navigator.serviceWorker.register('./sw.js').then(() => {
     document.getElementById('offlineBadge').style.display='block';
   });
 }
