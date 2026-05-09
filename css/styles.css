@@ -1,0 +1,104 @@
+body {
+  margin: 0;
+  font-family: sans-serif;
+  background: #0e0e10;
+  color: #eee;
+}
+
+.app {
+  padding: 20px;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.controls {
+  display: grid;
+  gap: 20px;
+}
+
+.knob {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+input[type="range"] {
+  width: 100%;
+}
+
+button {
+  padding: 10px;
+  font-size: 16px;
+}
+.dial {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  border: 2px solid #444;
+  position: relative;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  user-select: none;
+  touch-action: none;
+
+  background: #151518;
+
+  transform: rotate(-135deg);
+  transition: transform 0.02s linear;
+}
+
+.dial::after {
+  content: "";
+  position: absolute;
+  width: 2px;
+  height: 20px;
+  background: #aaa;
+  top: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.stereo {
+  display: flex;
+  gap: 40px;
+  justify-content: center;
+  align-items: flex-start;
+  flex-wrap: wrap;
+}
+
+.channel {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  align-items: center;
+  min-width: 160px;
+}
+
+.stereo-header {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+h3 {
+  margin: 0 0 10px 0;
+  color: #bbb;
+  font-size: 14px;
+}
+
+#power {
+  padding: 6px 12px;
+  border-radius: 6px;
+  border: 1px solid #444;
+  background: #151518;
+  color: #ccc;
+  cursor: pointer;
+}
+
+#power.active {
+  border-color: #6f6;
+  color: #6f6;
+}
