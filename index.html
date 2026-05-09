@@ -17,27 +17,30 @@
     Link L/R
   </label>
 </div>
+<div class="stereo-panel">
 
-<div class="stereo">
-
-  <div class="channel">
-    <h3>Left</h3>
-
-    <tone-dial label="Freq L" id="freqL" min="100" max="2000" value="880" log></tone-dial>
-    <tone-dial label="Vol L" id="volL" min="0" max="1" value="0.3"></tone-dial>
-    <tone-dial label="Rate L" id="rateL" min="0.01" max="5" value="0.1" log></tone-dial>
-    <tone-dial label="Depth L" id="depthL" min="0" max="50" value="5"></tone-dial>
-
+  <div class="row">
+    <div class="label">Freq</div>
+    <tone-dial id="freqL" min="100" max="2000" value="880" log></tone-dial>
+    <tone-dial id="freqR" min="100" max="2000" value="880" log></tone-dial>
   </div>
 
-  <div class="channel">
-    <h3>Right</h3>
+  <div class="row">
+    <div class="label">Vol</div>
+    <tone-dial id="volL" min="0" max="1" value="0.3"></tone-dial>
+    <tone-dial id="volR" min="0" max="1" value="0.3"></tone-dial>
+  </div>
 
-    <tone-dial label="Freq R" id="freqR" min="100" max="2000" value="880" log></tone-dial>
-    <tone-dial label="Vol R" id="volR" min="0" max="1" value="0.3"></tone-dial>
-    <tone-dial label="Rate R" id="rateR" min="0.01" max="5" value="0.1" log></tone-dial>
-    <tone-dial label="Depth R" id="depthR" min="0" max="50" value="5"></tone-dial>
+  <div class="row">
+    <div class="label">Rate</div>
+    <tone-dial id="rateL" min="0.01" max="5" value="0.1" log></tone-dial>
+    <tone-dial id="rateR" min="0.01" max="5" value="0.1" log></tone-dial>
+  </div>
 
+  <div class="row">
+    <div class="label">Depth</div>
+    <tone-dial id="depthL" min="0" max="50" value="5"></tone-dial>
+    <tone-dial id="depthR" min="0" max="50" value="5"></tone-dial>
   </div>
 
 </div>
