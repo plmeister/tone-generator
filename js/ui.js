@@ -1,5 +1,4 @@
 export function bindUI(audio) {
-
   const L = {
     freq: document.getElementById("freqL"),
     vol: document.getElementById("volL"),
@@ -18,7 +17,7 @@ export function bindUI(audio) {
     freq: document.getElementById("linkFreq"),
     vol: document.getElementById("linkVol"),
     rate: document.getElementById("linkRate"),
-    depth: document.getElementById("linkDepth")
+    depth: document.getElementById("linkDepth"),
   };
 
   const powerBtn = document.getElementById("power");
@@ -37,11 +36,34 @@ export function bindUI(audio) {
     isSyncing = false;
   }
 
-
-  const freqHandlers = bindLink("freq", L.freq, R.freq, value => audio.setFreq("L", value), value => audio.setFreq("R", value));
-  const volHandlers = bindLink("vol", L.vol, R.vol, value => audio.setVolume("L", value), value => audio.setVolume("R", value));
-  const rateHandlers = bindLink("rate", L.rate, R.rate, value => audio.setLfoRate("L", value), value => audio.setLfoRate("R", value));
-  const depthHandlers = bindLink("depth", L.depth, R.depth, value => audio.setLfoDepth("L", value), value => audio.setLfoDepth("R", value));
+  const freqHandlers = bindLink(
+    "freq",
+    L.freq,
+    R.freq,
+    (value) => audio.setFreq("L", value),
+    (value) => audio.setFreq("R", value),
+  );
+  const volHandlers = bindLink(
+    "vol",
+    L.vol,
+    R.vol,
+    (value) => audio.setVolume("L", value),
+    (value) => audio.setVolume("R", value),
+  );
+  const rateHandlers = bindLink(
+    "rate",
+    L.rate,
+    R.rate,
+    (value) => audio.setLfoRate("L", value),
+    (value) => audio.setLfoRate("R", value),
+  );
+  const depthHandlers = bindLink(
+    "depth",
+    L.depth,
+    R.depth,
+    (value) => audio.setLfoDepth("L", value),
+    (value) => audio.setLfoDepth("R", value),
+  );
 
   powerBtn.addEventListener("click", async () => {
     const isRunning = await audio.toggle();
@@ -64,20 +86,33 @@ export function bindUI(audio) {
   });
 
   function init() {
-    L.freq.addEventListener("change", e => freqHandlers.syncFromLeft(e.detail));
-    R.freq.addEventListener("change", e => freqHandlers.syncFromRight(e.detail));
+    L.freq.addEventListener("change", (e) =>
+      freqHandlers.syncFromLeft(e.detail),
+    );
+    R.freq.addEventListener("change", (e) =>
+      freqHandlers.syncFromRight(e.detail),
+    );
 
-    L.vol.addEventListener("change", e => volHandlers.syncFromLeft(e.detail));
-    R.vol.addEventListener("change", e => volHandlers.syncFromRight(e.detail));
+    L.vol.addEventListener("change", (e) => volHandlers.syncFromLeft(e.detail));
+    R.vol.addEventListener("change", (e) =>
+      volHandlers.syncFromRight(e.detail),
+    );
 
-    L.rate.addEventListener("change", e => rateHandlers.syncFromLeft(e.detail));
-    R.rate.addEventListener("change", e => rateHandlers.syncFromRight(e.detail));
+    L.rate.addEventListener("change", (e) =>
+      rateHandlers.syncFromLeft(e.detail),
+    );
+    R.rate.addEventListener("change", (e) =>
+      rateHandlers.syncFromRight(e.detail),
+    );
 
-    L.depth.addEventListener("change", e => depthHandlers.syncFromLeft(e.detail));
-    R.depth.addEventListener("change", e => depthHandlers.syncFromRight(e.detail));
+    L.depth.addEventListener("change", (e) =>
+      depthHandlers.syncFromLeft(e.detail),
+    );
+    R.depth.addEventListener("change", (e) =>
+      depthHandlers.syncFromRight(e.detail),
+    );
 
     refreshPresetList();
-
 
     saveBtn.addEventListener("click", () => {
       const name = presetNameInput.value.trim();
@@ -121,7 +156,7 @@ export function bindUI(audio) {
     const presets = JSON.parse(localStorage.getItem("tone-presets") || "{}");
 
     presetList.innerHTML = "";
-    Object.keys(presets).forEach(name => {
+    Object.keys(presets).forEach((name) => {
       const opt = document.createElement("option");
       opt.value = name;
       opt.textContent = name;
@@ -133,20 +168,20 @@ export function bindUI(audio) {
     return {
       freq: {
         L: L.freq.getValue(),
-        R: R.freq.getValue()
+        R: R.freq.getValue(),
       },
       vol: {
         L: L.vol.getValue(),
-        R: R.vol.getValue()
+        R: R.vol.getValue(),
       },
       rate: {
         L: L.rate.getValue(),
-        R: R.rate.getValue()
+        R: R.rate.getValue(),
       },
       depth: {
         L: L.depth.getValue(),
-        R: R.depth.getValue()
-      }
+        R: R.depth.getValue(),
+      },
     };
   }
 
@@ -219,6 +254,6 @@ export function bindUI(audio) {
     applyPreset,
     savePreset,
     loadPreset,
-    deletePreset
+    deletePreset,
   };
 }

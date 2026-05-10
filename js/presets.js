@@ -18,5 +18,5 @@ export const presets = {
     volume: 0.3,
     lfoRate: 0.3,
     lfoDepth: 8,
-  }
+  },
 };

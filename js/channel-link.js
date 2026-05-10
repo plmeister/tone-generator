@@ -50,9 +50,11 @@ class ChannelLink extends HTMLElement {
     this.value = !!v;
     this._render();
 
-    this.dispatchEvent(new CustomEvent("change", {
-      detail: this.value
-    }));
+    this.dispatchEvent(
+      new CustomEvent("change", {
+        detail: this.value,
+      }),
+    );
   }
 
   getValue() {

@@ -25,14 +25,13 @@ export function createAudioEngine() {
   async function stop() {
     masterGain.gain.cancelScheduledValues(ctx.currentTime);
     masterGain.gain.setTargetAtTime(0, ctx.currentTime, 0.03);
-    await new Promise(resolve => setTimeout(resolve, 80));
+    await new Promise((resolve) => setTimeout(resolve, 80));
     await ctx.suspend();
     running = false;
   }
 
   async function toggle() {
     if (!running) {
-
       await start();
     } else {
       await stop();
@@ -82,7 +81,7 @@ export function createAudioEngine() {
       lfo,
       lfoGain,
       startOscillator,
-      startLfo
+      startLfo,
     };
   }
 
@@ -127,6 +126,6 @@ export function createAudioEngine() {
     setFreq,
     setVolume,
     setLfoRate,
-    setLfoDepth
+    setLfoDepth,
   };
 }

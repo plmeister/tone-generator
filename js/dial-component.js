@@ -126,9 +126,11 @@ class ToneDial extends HTMLElement {
   }
 
   _emit(v) {
-    this.dispatchEvent(new CustomEvent("change", {
-      detail: v
-    }));
+    this.dispatchEvent(
+      new CustomEvent("change", {
+        detail: v,
+      }),
+    );
   }
 
   _setValue(v, emit = true) {
@@ -142,7 +144,7 @@ class ToneDial extends HTMLElement {
 
   _render() {
     const t = this._toNorm(this.value);
-    const angle = (t * 270) - 135;
+    const angle = t * 270 - 135;
 
     // ONLY rotate knob, not whole component
     this._knob.style.transform = `rotate(${angle}deg)`;
