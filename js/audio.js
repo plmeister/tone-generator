@@ -1,12 +1,24 @@
 export function createAudioEngine() {
-  const ctx = new (window.AudioContext || window.webkitAudioContext)();
-  const masterGain = ctx.createGain();
-  masterGain.gain.value = 0;
-  masterGain.connect(ctx.destination);
+  let ctx = null;
 
   let running = false;
+  let L = null;
+  let R = null;
+  let masterGain = null;
+
+  function initAudioGraph() {
+    masterGain = ctx.createGain();
+    masterGain.gain.value = 0;
+    masterGain.connect(ctx.destination);
+    L = makeChannel(ctx, -1);
+    R = makeChannel(ctx, +1);
+  }
 
   async function start() {
+    if (!ctx) {
+      ctx = new (window.AudioContext || window.webkitAudioContext)();
+      initAudioGraph();
+    }
     if (ctx.state !== "running") {
       await ctx.resume();
     }
@@ -25,14 +37,13 @@ export function createAudioEngine() {
   async function stop() {
     masterGain.gain.cancelScheduledValues(ctx.currentTime);
     masterGain.gain.setTargetAtTime(0, ctx.currentTime, 0.03);
-    await new Promise(resolve => setTimeout(resolve, 80));
+    await new Promise((resolve) => setTimeout(resolve, 80));
     await ctx.suspend();
     running = false;
   }
 
   async function toggle() {
     if (!running) {
-
       await start();
     } else {
       await stop();
@@ -82,14 +93,12 @@ export function createAudioEngine() {
       lfo,
       lfoGain,
       startOscillator,
-      startLfo
+      startLfo,
     };
   }
 
-  const L = makeChannel(ctx, -1);
-  const R = makeChannel(ctx, +1);
-
   function setFreq(channel, v) {
+    if (!ctx) return;
     const target = channel === "L" ? L : R;
     const param = target.osc.frequency;
     param.cancelScheduledValues(ctx.currentTime);
@@ -97,6 +106,7 @@ export function createAudioEngine() {
   }
 
   function setVolume(channel, v) {
+    if (!ctx) return;
     const target = channel === "L" ? L : R;
     const param = target.gain.gain;
     param.cancelScheduledValues(ctx.currentTime);
@@ -104,6 +114,7 @@ export function createAudioEngine() {
   }
 
   function setLfoRate(channel, v) {
+    if (!ctx) return;
     const target = channel === "L" ? L : R;
     const param = target.lfo.frequency;
     param.cancelScheduledValues(ctx.currentTime);
@@ -111,6 +122,7 @@ export function createAudioEngine() {
   }
 
   function setLfoDepth(channel, v) {
+    if (!ctx) return;
     const target = channel === "L" ? L : R;
     const param = target.lfoGain.gain;
     param.cancelScheduledValues(ctx.currentTime);
@@ -127,6 +139,6 @@ export function createAudioEngine() {
     setFreq,
     setVolume,
     setLfoRate,
-    setLfoDepth
+    setLfoDepth,
   };
 }

@@ -149,3 +149,24 @@ h3 {
   border-radius: 6px;
   padding: 6px 10px;
 }
+
+.modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.hidden {
+  display: none;
+}
+
+.modal-content {
+  background: #151518;
+  padding: 16px;
+  border-radius: 10px;
+  min-width: 260px;
+  color: #ccc;
+}

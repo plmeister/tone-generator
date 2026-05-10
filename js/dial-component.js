@@ -8,6 +8,7 @@ class ToneDial extends HTMLElement {
     this.value = 0.5;
     this.log = false;
     this.sensitivity = 1;
+    this.formatter = null;
 
     this._activePointer = null;
     this._startY = 0;
@@ -89,6 +90,11 @@ class ToneDial extends HTMLElement {
     this._onUp = this._onUp.bind(this);
   }
 
+  setFormatter(fn) {
+    this.formatter = fn;
+    this._render();
+  }
+
   connectedCallback() {
     this.min = parseFloat(this.getAttribute("min") ?? 0);
     this.max = parseFloat(this.getAttribute("max") ?? 1);
@@ -102,6 +108,13 @@ class ToneDial extends HTMLElement {
     window.addEventListener("pointermove", this._onMove);
     window.addEventListener("pointerup", this._onUp);
 
+    this._value.addEventListener("click", () => {
+      this.dispatchEvent(
+        new CustomEvent("labelclick", {
+          detail: this.value,
+        }),
+      );
+    });
     this._render();
   }
 
@@ -126,9 +139,11 @@ class ToneDial extends HTMLElement {
   }
 
   _emit(v) {
-    this.dispatchEvent(new CustomEvent("change", {
-      detail: v
-    }));
+    this.dispatchEvent(
+      new CustomEvent("change", {
+        detail: v,
+      }),
+    );
   }
 
   _setValue(v, emit = true) {
@@ -142,12 +157,16 @@ class ToneDial extends HTMLElement {
 
   _render() {
     const t = this._toNorm(this.value);
-    const angle = (t * 270) - 135;
+    const angle = t * 270 - 135;
 
     // ONLY rotate knob, not whole component
     this._knob.style.transform = `rotate(${angle}deg)`;
 
-    this._value.textContent = this.value.toFixed(2);
+    if (this.formatter) {
+      this._value.textContent = this.formatter(this.value);
+    } else {
+      this._value.textContent = this.value.toFixed(2);
+    }
   }
 
   _onDown(e) {
