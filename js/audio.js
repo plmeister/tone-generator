@@ -39,7 +39,7 @@ export function createAudioEngine() {
     const lfo = ctx.createOscillator();
     const lfoGain = ctx.createGain();
 
-    const pannel = ctx.createStereoPanner();
+    const panner = ctx.createStereoPanner();
 
     osc.type = "sine";
     lfo.type = "sine";
