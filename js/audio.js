@@ -1,6 +1,8 @@
 export function createAudioEngine() {
   const ctx = new (window.AudioContext || window.webkitAudioContext)();
-
+  const masterGain = ctx.createGain();
+  masterGain.gain.value = 0;
+  masterGain.connect(ctx.destination);
 
   let running = false;
 
@@ -15,9 +17,15 @@ export function createAudioEngine() {
     R.startOscillator();
     L.startLfo();
     R.startLfo();
+
+    masterGain.gain.cancelScheduledValues(ctx.currentTime);
+    masterGain.gain.setTargetAtTime(1, ctx.currentTime, 0.03);
   }
 
   async function stop() {
+    masterGain.gain.cancelScheduledValues(ctx.currentTime);
+    masterGain.gain.setTargetAtTime(0, ctx.currentTime, 0.03);
+    await new Promise(resolve => setTimeout(resolve, 80));
     await ctx.suspend();
     running = false;
   }
@@ -27,7 +35,7 @@ export function createAudioEngine() {
 
       await start();
     } else {
-      await ctx.suspend();
+      await stop();
       running = false;
     }
     return running;
@@ -38,7 +46,6 @@ export function createAudioEngine() {
     const gain = ctx.createGain();
     const lfo = ctx.createOscillator();
     const lfoGain = ctx.createGain();
-
     const panner = ctx.createStereoPanner();
 
     osc.type = "sine";
@@ -46,7 +53,7 @@ export function createAudioEngine() {
 
     osc.connect(gain);
     gain.connect(panner);
-    panner.connect(ctx.destination);
+    panner.connect(masterGain);
 
     panner.pan.value = panValue;
 
@@ -84,22 +91,30 @@ export function createAudioEngine() {
 
   function setFreq(channel, v) {
     const target = channel === "L" ? L : R;
-    target.osc.frequency.setTargetAtTime(v, ctx.currentTime, 0.01);
+    const param = target.osc.frequency;
+    param.cancelScheduledValues(ctx.currentTime);
+    param.setTargetAtTime(v, ctx.currentTime, 0.02);
   }
 
   function setVolume(channel, v) {
     const target = channel === "L" ? L : R;
-    target.gain.gain.setTargetAtTime(v, ctx.currentTime, 0.02);
+    const param = target.gain.gain;
+    param.cancelScheduledValues(ctx.currentTime);
+    param.setTargetAtTime(v, ctx.currentTime, 0.05);
   }
 
   function setLfoRate(channel, v) {
     const target = channel === "L" ? L : R;
-    target.lfo.frequency.setTargetAtTime(v, ctx.currentTime, 0.05);
+    const param = target.lfo.frequency;
+    param.cancelScheduledValues(ctx.currentTime);
+    param.setTargetAtTime(v, ctx.currentTime, 0.05);
   }
 
   function setLfoDepth(channel, v) {
     const target = channel === "L" ? L : R;
-    target.lfoGain.gain.setTargetAtTime(v, ctx.currentTime, 0.05);
+    const param = target.lfoGain.gain;
+    param.cancelScheduledValues(ctx.currentTime);
+    param.setTargetAtTime(v, ctx.currentTime, 0.05);
   }
 
   return {

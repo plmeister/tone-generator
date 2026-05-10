@@ -12,34 +12,41 @@
 <div id="controls">
         <div class="stereo-header">
           <button id="power">Start</button>
-  <label>
-    <input type="checkbox" id="lockAll" checked>
-    Link L/R
-  </label>
+          <div class="preset-bar">
+            <input id="presetName" type="text" placeHolder="Preset name"/>
+          <button id="saveBtn">Save</button>
+          <select id="presetList"></select>
+          <button id="loadBtn">Load</button>
+          <button id="deleteBtn">Delete</button>
+          </div>
 </div>
 <div class="stereo-panel">
 
   <div class="row">
     <div class="label">Freq</div>
     <tone-dial id="freqL" min="100" max="2000" value="880" log></tone-dial>
+            <channel-link id="linkFreq"></channel-link>
     <tone-dial id="freqR" min="100" max="2000" value="880" log></tone-dial>
   </div>
 
   <div class="row">
     <div class="label">Vol</div>
     <tone-dial id="volL" min="0" max="1" value="0.3"></tone-dial>
+            <channel-link id="linkVol"></channel-link>
     <tone-dial id="volR" min="0" max="1" value="0.3"></tone-dial>
   </div>
 
   <div class="row">
     <div class="label">Rate</div>
     <tone-dial id="rateL" min="0.01" max="5" value="0.1" log></tone-dial>
+            <channel-link id="linkRate"></channel-link>
     <tone-dial id="rateR" min="0.01" max="5" value="0.1" log></tone-dial>
   </div>
 
   <div class="row">
     <div class="label">Depth</div>
     <tone-dial id="depthL" min="0" max="50" value="5"></tone-dial>
+            <channel-link id="linkDepth"></channel-link>
     <tone-dial id="depthR" min="0" max="50" value="5"></tone-dial>
   </div>
 

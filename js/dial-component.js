@@ -131,10 +131,13 @@ class ToneDial extends HTMLElement {
     }));
   }
 
-  _setValue(v) {
+  _setValue(v, emit = true) {
     this.value = this._clamp(v);
     this._render();
-    this._emit(this.value);
+
+    if (emit) {
+      this._emit(this.value);
+    }
   }
 
   _render() {
@@ -167,7 +170,7 @@ class ToneDial extends HTMLElement {
 
     const norm = Math.max(0, Math.min(1, normStart + normDelta));
 
-    this._setValue(this._fromNorm(norm));
+    this._setValue(this._fromNorm(norm), true);
     e.preventDefault();
   }
 
@@ -179,7 +182,7 @@ class ToneDial extends HTMLElement {
   }
 
   setValue(v) {
-    this._setValue(v);
+    this._setValue(v, false);
   }
 
   getValue() {
