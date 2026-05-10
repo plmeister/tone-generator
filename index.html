@@ -13,11 +13,15 @@
         <div class="stereo-header">
           <button id="power">Start</button>
           <div class="preset-bar">
-            <input id="presetName" type="text" placeholder="Preset name" />
-            <button id="saveBtn">Save</button>
             <select id="presetList"></select>
-            <button id="loadBtn">Load</button>
+            <button id="saveBtn">Save</button>
             <button id="deleteBtn">Delete</button>
+          </div>
+          <div id="savePresetPanel" class="hidden">
+            <input id="presetName" type="text" placeholder="Preset name" />
+
+            <button id="confirmSaveBtn">OK</button>
+            <button id="cancelSaveBtn">Cancel</button>
           </div>
         </div>
         <div class="stereo-panel">
@@ -72,6 +76,36 @@
             <channel-link id="linkDepth"></channel-link>
             <tone-dial id="depthR" min="0" max="50" value="5"></tone-dial>
           </div>
+        </div>
+      </div>
+      <div id="freqModal" class="modal hidden">
+        <div class="modal-content">
+          <h3>Set Frequency</h3>
+
+          <label>
+            Hz:
+            <input id="freqHz" type="number" min="20" max="20000" />
+          </label>
+
+          <hr />
+
+          <label>
+            Note:
+            <select id="noteSelect"></select>
+          </label>
+
+          <label>
+            Octave:
+            <select id="octaveSelect"></select>
+          </label>
+
+          <label>
+            Cent:
+            <input id="centInput" type="number" min="-50" max="50" />
+          </label>
+
+          <button id="applyFreqBtn">Apply</button>
+          <button id="closeModalBtn">Cancel</button>
         </div>
       </div>
     </div>
